@@ -214,7 +214,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
             <th id="${id_prefix}_header_p" width="99%">Permissions for <span id="${id_prefix}_header_username"></span>
             </th>
             <th id="${id_prefix}_header_allow">Allow</th>
-            <th id="${id_prefix}_header_deny">Deny</th>
+            <th id="${id_prefix}_header_deny">Remove</th>
         </tr>
     </table>
     `)
@@ -228,8 +228,11 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
             <td id="${id_prefix}_${g}_name">${g}</td>
         </tr>`)
         for(let ace_type of ['allow', 'deny']) {
-            row.append(`<td id="${id_prefix}_${g}_${ace_type}_cell">
-                <input type="checkbox" id="${id_prefix}_${g}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox" group="${g}" ></input>
+            let title = ace_type === 'deny' ? ' title="Check to explicitly remove this permission"' : '';
+            let extraClass = ace_type === 'deny' ? ' deny-checkbox' : '';
+            let tdClass = ace_type === 'deny' ? ' deny-cell' : '';
+            row.append(`<td id="${id_prefix}_${g}_${ace_type}_cell" class="${tdClass}">
+                <input type="checkbox" id="${id_prefix}_${g}_${ace_type}_checkbox" ptype="${ace_type}" class="groupcheckbox${extraClass}" group="${g}"${title}></input>
             </td>`)
         }
         group_table.append(row)
@@ -300,7 +303,7 @@ function define_permission_checkboxes(id_prefix, which_permissions = null){
             <th id="${id_prefix}_header_p" width="99%">Permissions for <span id="${id_prefix}_header_username"></span>
             </th>
             <th id="${id_prefix}_header_allow">Allow</th>
-            <th id="${id_prefix}_header_deny">Deny</th>
+            <th id="${id_prefix}_header_deny">Remove</th>
         </tr>
     </table>
     `)
@@ -317,8 +320,11 @@ function define_permission_checkboxes(id_prefix, which_permissions = null){
         </tr>`)
         // Add allow and deny checkboxes:
         for(let ace_type of ['allow', 'deny']) {
-            row.append(`<td id="${id_prefix}_${p_id}_${ace_type}_cell">
-                <input type="checkbox" id="${id_prefix}_${p_id}_${ace_type}_checkbox" ptype="${ace_type}" class="perm_checkbox" permission="${p}" ></input>
+            let title = ace_type === 'deny' ? ' title="Check to explicitly remove this permission"' : '';
+            let extraClass = ace_type === 'deny' ? ' deny-checkbox' : '';
+            let tdClass = ace_type === 'deny' ? ' deny-cell' : '';
+            row.append(`<td id="${id_prefix}_${p_id}_${ace_type}_cell" class="${tdClass}">
+                <input type="checkbox" id="${id_prefix}_${p_id}_${ace_type}_checkbox" ptype="${ace_type}" class="perm_checkbox${extraClass}" permission="${p}"${title} ></input>
             </td>`)
         }
         perm_table.append(row)
