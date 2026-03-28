@@ -18,7 +18,7 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
             }
         },
         Advanced: {
-            text: "Advanced",
+            text: "Advanced Permissions Settings",
             id: "perm-dialog-advanced-button",
             click: function() {
                 open_advanced_dialog(perm_dialog.attr('filepath'))
@@ -32,8 +32,27 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
 obj_name_div = $('<div id="permdialog_objname" class="section">Object Name: <span id="permdialog_objname_namespan"></span> </div>')
 
 //Make the div with the explanation about special permissions/advanced settings:
-advanced_expl_div = $('<div id="permdialog_advanced_explantion_text">For special permissions or advanced settings, click Advanced.</div>')
+advanced_expl_div = $(`
+<div id="permdialog_advanced_explantion_text" style="
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 4px;
+">
+    ⚠ Having trouble accessing files? Click <b>Advanced Permissions</b> to fix inheritance or access issues.
+</div>
+`)
+remove_help_div = $('<div id="remove_user_help_text">To completely remove a user, select them and click "Remove User".</div>')
 
+let edit_inheritance_btn = $(
+    '<button id="edit_inheritance_btn" class="ui-button ui-widget ui-corner-all" style="margin-top:8px;">' +
+    'Edit Inherited Access...' +
+    '</button>'
+);
+edit_inheritance_btn.click(function() {
+    $('#adv_perm_inheritance').prop('checked', false).change();
+});
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')
 grouped_permissions.addClass('section') // add a 'section' class to the grouped_permissions element. This class adds a bit of spacing between this element and the next.
@@ -48,7 +67,7 @@ file_permission_users.css({
 })
 
 // Make button to add a new user to the list:
-perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add...', on_user_change = function(selected_user){
+perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add User...', on_user_change = function(selected_user){
     // console.log("add...")
     let filepath = perm_dialog.attr('filepath')
     if(selected_user && (selected_user.length > 0) && (selected_user in all_users)) { // sanity check that a user is actually selected (and exists)
@@ -117,10 +136,10 @@ let are_you_sure_dialog = define_new_dialog('are_you_sure_dialog', "Are you sure
     }
 })
 // Add text to the dialog:
-are_you_sure_dialog.text('Do you want to remove permissions for this user?')
+are_you_sure_dialog.text('Do you want to remove this user entirely from the permission settings for this file?')
 
 // Make actual "remove" button:
-perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all">Remove</button>')
+perm_remove_user_button  = $('<button id="perm_remove_user" class="ui-button ui-widget ui-corner-all">Remove User</button>')
 perm_remove_user_button.click(function(){
     // Get the current user and filename we are working with:
     let selected_username = file_permission_users.attr('selected_item')
@@ -230,6 +249,11 @@ function open_advanced_dialog(file_path) {
     $('#adv_owner_user_list').empty()
     $(`.effectivecheckcell`).empty()
 
+    if ($('#edit_inheritance_btn').length === 0) {
+        $('#adv_perm_inheritance_div').before(edit_inheritance_btn);
+    }
+
+    // Set checkbox state
     if(file_obj.using_permission_inheritance) {
         $('#adv_perm_inheritance').prop('checked', true)
     }
@@ -353,19 +377,19 @@ $('#adv_perm_inheritance').change(function(){
     }
     else {
         // has just been turned off - pop up dialog with add/remove/cancel
-        $(`<div id="add_remove_cancel" title="Security">
-            Warning: if you proceed, inheritable permissions will no longer propagate to this object.<br/>
-            - Click Add to convert and add inherited parent permissions as explicit permissions on this object<br/>
-            - Click Remove to remove inherited parent permissions from this object<br/>
-            - Click Cancel if you do not want to modify inheritance settings at this time.<br/>
-        </div>`).dialog({ // TODO: don't create this dialog on the fly
+        $('<div id="add_remove_cancel" title="Modify inherited permissions">' +
+        " This file currently inherits permissions from its parent folder.<br><br>" +
+        " To make changes to inherited permissions, you must first convert inherited permissions into editable permissions.<br><br>" +
+       " (Recommended) Keep current permissions to make them editable. After this, return to the Permissions panel (first tab) to modify or remove users.<br><br>" +
+        " What would you like to do?" +
+        "</div>").dialog({ // TODO: don't create this dialog on the fly
             modal: true,
             width: 400,
             appendTo: "#html-loc",
             position: { my: "top", at: "top", of: $('#html-loc') },
             buttons: {
                 Add: {
-                    text: "Add",
+                    text: "Keep current permissions (make them editable)",
                     id: "adv-inheritance-add-button",
                     click: function() {
                         let filepath = $('#advdialog').attr('filepath')
@@ -377,7 +401,7 @@ $('#adv_perm_inheritance').change(function(){
                     },
                 },
                 Remove: {
-                    text: "Remove",
+                    text: "Remove inherited permissions",
                     id: "adv-inheritance-remove-button",
                     click: function() {
                         let filepath = $('#advdialog').attr('filepath')
@@ -410,7 +434,7 @@ $('#adv_perm_replace_child_permissions').change(function(){
         let filepath = $('#advdialog').attr('filepath')
         let file_obj = path_to_file[filepath]
         $(`<div id="replace_perm_dialog" title="Security">
-            This will replace explicitly defined permissions on all descendants of this object with inheritable permissions from ${file_obj.filename}.<br/>
+            This will apply this folder’s permissions to all files and subfolders inside ${file_obj.filename}, replacing any existing permissions on those files and subfolders. <br/><br/>
             Do you wish to continue?
         </div>`).dialog({
             modal: true,
