@@ -218,6 +218,13 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         </tr>
     </table>
     `)
+    group_table.append(`
+    <tr id="${id_prefix}_helper_row">
+        <td colspan="3" id="${id_prefix}_helper_text" class="permission-helper-text">
+            If this user receives access through a group, edit the individual user and use <b>Remove</b> to override inherited permissions.
+        </td>
+    </tr>
+    `)
 
     if(which_groups === null) {
         which_groups = perm_groupnames
@@ -350,9 +357,14 @@ function define_permission_checkboxes(id_prefix, which_permissions = null){
     }
     // For each type of permission, create a row:
     for(let p of which_permissions){
-        let p_id = p.replace(/[ \/]/g, '_') 
+        let p_id = p.replace(/[ \/]/g, '_')
+
+        let display_p = p
+        if (p === "Read") display_p = "Read (access)"
+        if (p === "Modify") display_p = "Modify (make changes)"
+
         let row = $(`<tr id="${id_prefix}_row_${p_id}">
-            <td id="${id_prefix}_${p_id}_name">${p}</td>
+            <td id="${id_prefix}_${p_id}_name">${display_p}</td>
         </tr>`)
         // Add allow and deny checkboxes:
         for(let ace_type of ['allow', 'deny']) {
