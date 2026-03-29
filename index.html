@@ -91,7 +91,7 @@
                 <div title="Permission Entry" id="permentry">
                     <div id="perm_entry_inheritance_explanation" style="display:none" class="section">This permission is
                         inherited from the parent object. Make changes here to override the inherited permissions.</div>
-                    <span id="perm_entry_name_text">Name: </span>
+                    <span id="perm_entry_name_text">Select a group or a user name: </span>
                     <span id="perm_entry_username" class="ui-widget-content section"
                         style="width:200px;display:inline-block;"></span>
                     <button id="perm_entry_change_user" class="ui-button ui-widget ui-corner-all">Change...</button>
@@ -112,8 +112,11 @@
                             <li id="advtab_title_owner"><a href="#adv_owner_tab" id="adv_owner_tab_elem">Owner</a></li>
                             <li id="advtab_title_effective"><a href="#adv_effective_tab"
                                     id="adv_effective_tab_elem">Effective Permissions</a></li>
+                            <!-- <li id="advtab_title_inheritance"><a href="#adv_inheritance_tab"
+                                    id="adv_inheritance_tab_elem">Inheritance</a></li> -->
                         </ul>
                         <div id="adv_permissions_tab">
+                            <b>Below you will see all users and permissions for this file.</b>
                             <div id="adv_perm_object_name" class="section">Object Name: <span
                                     id="adv_perm_filepath"></span></div>
                             <div id="adv_perm_entries_text">Permission entries:</div>
@@ -128,7 +131,8 @@
                                     </tr>
                                 </table>
                             </div>
-                            <button id="adv_perm_edit" class="ui-button ui-widget ui-corner-all">Edit General Permissions</button>
+                            <button id="adv_perm_edit" class="ui-button ui-widget ui-corner-all">Edit General
+                                Permissions</button>
                             <div id="adv_perm_inheritance_div">
                                 <input type="checkbox" id="adv_perm_inheritance" name="inherit">
                                 <label for="adv_perm_inheritance" id="adv_perm_inheritance_label">Include inheritable
@@ -154,9 +158,11 @@
                                 Owner</button>
                         </div>
                         <div id="adv_effective_tab">
+                            <b>Select a user to see what they're actually allowed to do on this file.</b>
+                            <br>
                             <div id="adv_effective_object_name" class="section">Object Name: <span
                                     id="adv_effective_filepath"></span></div>
-                            <div id="adv_effective_user_text">Group or user name:</div>
+                            <div id="adv_effective_user_text">Select a group or user name:</div>
                             <div id="adv_effective_current_user_line" class="section">
                                 <span id="adv_effective_current_user" class="ui-widget-content"
                                     style="width: 80%;display: inline-block;">&nbsp</span>
@@ -165,7 +171,23 @@
                             </div>
                             <div id="adv_effective_effective_text">Effective permissions:</div>
                             <div id="adv_effective_effective_list" class="ui-widget-content"
-                                style="height:150px;overflow-y:scroll"></div>
+                                style="height:150px;overflow-y:scroll">
+                            </div>
+                        </div>
+                        <div id="adv_inheritance_tab">
+                            <b>Choose a user or group and see their inherited permissions</b>
+                            <br>
+                            <div id="adv_inheritance_object_name" class="section">Object Name: <span
+                                    id="adv_inheritance_filepath"></span></div>
+                            <div id="adv_inheritance_user_text">Select a group or user name:</div>
+                            <div id="adv_inheritance_current_user_line" class="section">
+                                <span id="adv_inheritance_current_user" class="ui-widget-content"
+                                    style="width: 80%;display: inline-block;">&nbsp</span>
+                                <button id="adv_inheritance_user_select"
+                                    class="ui-button ui-widget ui-corner-all">Select...</button>
+                            </div>
+
+                            <div id="adv_inheritance_div"></div>
                         </div>
                     </div>
                 </div>
