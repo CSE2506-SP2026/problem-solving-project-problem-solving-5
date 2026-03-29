@@ -36,3 +36,63 @@
 .no-close .ui-dialog-titlebar-close {
     display: none;
 }
+
+
+/*CSS for the i button*/
+
+.perm-info-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3366cc;
+    font-size: 0.9em;
+    margin-left: 5px;
+    padding: 0;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.perm-info-btn:hover {
+    color: #11348b;
+}
+
+.perm-info-popover {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    background: #fff;
+    border: 1px solid #99b;
+    border-radius: 5px;
+    padding: 10px 14px;
+    max-width: 240px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    font-size: 0.88em;
+    color: #222;
+    line-height: 1.5;
+}
+
+.perm-info-popover-close {
+    display: block;
+    margin-top: 10px;
+    font-size: 0.85em;
+    cursor: pointer;
+    float: right;
+    background: none;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 1px 6px;
+}
+
+.perm-info-popover-close:hover {
+    background: #eee;
+}
+
+/*CSS styling for the add user hint blurb*/
+
+#perm_add_user_hint {
+    font-size: 0.85em;
+    margin-top: 4px;
+    padding: 6px 8px;
+    background: #fff3cd;
+    border-radius: 3px;
+}

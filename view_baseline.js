@@ -168,6 +168,9 @@ perm_dialog.append($('<div id="permissions_user_title">Select a group or user na
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
+//Add hint for user so they know to add a new user
+let add_user_hint = $(`<div id="perm_add_user_hint">Don't see the user you need? Click <b>Add User...</b> to grant them access to this file or folder.</div>`)
+perm_dialog.append(add_user_hint)
 perm_dialog.append(grouped_permissions)
 perm_dialog.append(advanced_expl_div)
 

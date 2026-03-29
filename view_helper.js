@@ -222,6 +222,8 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     if(which_groups === null) {
         which_groups = perm_groupnames
     }
+    //removed special permissions because it's always locked anyways
+    which_groups = which_groups.filter(g => g !== 'Special_permissions')
     // For each permissions group, create a row:
     for(let g of which_groups){
         let row = $(`<tr id="${id_prefix}_row_${g}">
@@ -236,6 +238,40 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
             </td>`)
         }
         group_table.append(row)
+
+//Creates an info button for every permission group row
+const permDescriptions = {
+    'Full_control': 'Grants <b>complete access</b> — read, write, modify, delete, and <b>change permissions</b> for other users. Use for administrators or managers.',
+    'Modify': 'Allows reading, writing, and <b>deleting</b> files and folders, but <b>not</b> changing permissions.',
+    'Read_Execute': 'Allows viewing file contents and <b>running</b> executable files, but not making changes.',
+    'Read': 'Allows <b>viewing</b> file and folder contents only. Cannot make any changes.',
+    'Write': 'Allows <b>creating and editing</b> files, but not deleting or changing permissions.',
+}
+
+let infoBtn = $(`<button type="button" class="perm-info-btn" id="${id_prefix}_${g}_info_btn">ⓘ</button>`)
+let infoPopover = $(`
+    <div class="perm-info-popover" id="${id_prefix}_${g}_info_popover">
+        <strong>${g}</strong><br><br>
+        ${permDescriptions[g]}
+        <br>
+        <button type="button" class="perm-info-popover-close" id="${id_prefix}_${g}_info_close">Close</button>
+    </div>
+`)
+$('body').append(infoPopover)
+
+infoBtn.on('click', function(e) {
+    // close current open popovers if there are any
+    $('.perm-info-popover').not(infoPopover).hide()
+    let offset = infoBtn.offset()
+    infoPopover.css({ top: offset.top + 24, left: offset.left }).toggle()
+    e.stopPropagation()
+})
+infoPopover.find(`#${id_prefix}_${g}_info_close`).on('click', function() {
+    infoPopover.hide()
+})
+$(document).on('click.infopopover', function() { infoPopover.hide() })
+
+group_table.find(`#${id_prefix}_${g}_name`).append(infoBtn)
     }  
 
 
