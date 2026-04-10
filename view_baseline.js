@@ -45,14 +45,6 @@ advanced_expl_div = $(`
 `)
 remove_help_div = $('<div id="remove_user_help_text">To completely remove a user, select them and click "Remove User".</div>')
 
-let edit_inheritance_btn = $(
-    '<button id="edit_inheritance_btn" class="ui-button ui-widget ui-corner-all" style="margin-top:8px;">' +
-    'Edit Inherited Access...' +
-    '</button>'
-);
-edit_inheritance_btn.click(function () {
-    $('#adv_perm_inheritance').prop('checked', false).change();
-});
 // Make the (grouped) permission checkboxes table:
 grouped_permissions = define_grouped_permission_checkboxes('permdialog_grouped_permissions')
 grouped_permissions.addClass('section') // add a 'section' class to the grouped_permissions element. This class adds a bit of spacing between this element and the next.
@@ -251,10 +243,6 @@ function open_advanced_dialog(file_path) {
     $('#adv_perm_table tr:gt(0)').remove()
     $('#adv_owner_user_list').empty()
     $(`.effectivecheckcell`).empty()
-
-    if ($('#edit_inheritance_btn').length === 0) {
-        $('#adv_perm_inheritance_div').before(edit_inheritance_btn);
-    }
 
     // Set checkbox state
     if (file_obj.using_permission_inheritance) {

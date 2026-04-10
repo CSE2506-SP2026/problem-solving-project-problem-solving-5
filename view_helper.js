@@ -233,8 +233,11 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     which_groups = which_groups.filter(g => g !== 'Special_permissions')
     // For each permissions group, create a row:
     for(let g of which_groups){
+        let display_g = g
+        if (g === "Full_control") display_g = "Full_control (Complete Access)"
+
         let row = $(`<tr id="${id_prefix}_row_${g}">
-            <td id="${id_prefix}_${g}_name">${g}</td>
+            <td id="${id_prefix}_${g}_name">${display_g}</td>
         </tr>`)
         for(let ace_type of ['allow', 'deny']) {
             let title = ace_type === 'deny' ? ' title="Check to explicitly remove this permission"' : '';
