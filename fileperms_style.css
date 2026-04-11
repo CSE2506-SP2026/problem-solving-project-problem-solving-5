@@ -96,3 +96,12 @@
     background: #fff3cd;
     border-radius: 3px;
 }
+
+#permdialog_close_hint {
+    font-size: 0.85em;
+    padding: 6px 8px;
+    background: #f8d7da;
+    border: 1px solid #f1aeb5;
+    border-radius: 4px;
+    color: #842029;
+}

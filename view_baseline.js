@@ -9,6 +9,16 @@ perm_dialog = define_new_dialog('permdialog', title = 'Edit permissions', option
     // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
     height: 500,
     width: 400,
+    open: function () {
+        const dialogWindow = $(this).closest('.ui-dialog')
+        const closeButton = dialogWindow.find('.ui-dialog-titlebar-close')
+
+        closeButton.attr('title', 'Close without saving')
+        closeButton.off('click.permdialogClose').on('click.permdialogClose', function (event) {
+            event.preventDefault()
+            perm_dialog.dialog('close')
+        })
+    },
     buttons: {
         OK: {
             text: "OK",
@@ -30,6 +40,12 @@ perm_dialog = define_new_dialog('permdialog', title = 'Edit permissions', option
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
 obj_name_div = $('<b>Select a group or user to see and edit available permissions.</b><div id="permdialog_objname" class="section">Object Name: <span id="permdialog_objname_namespan"></span> </div>')
+
+close_without_save_div = $(`
+<div id="permdialog_close_hint" class="section">
+    Clicking the <b>X</b> closes this window without saving changes.
+</div>
+`)
 
 //Make the div with the explanation about special permissions/advanced settings:
 advanced_expl_div = $(`
@@ -156,6 +172,7 @@ perm_remove_user_button.click(function () {
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
 perm_dialog.append(obj_name_div)
+perm_dialog.append(close_without_save_div)
 perm_dialog.append($('<div id="permissions_user_title">Select a group or user names:</div>'))
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
