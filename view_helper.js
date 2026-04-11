@@ -221,7 +221,7 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     group_table.append(`
     <tr id="${id_prefix}_helper_row">
         <td colspan="3" id="${id_prefix}_helper_text" class="permission-helper-text">
-            If this user receives access through a group, edit the individual user and use <b>Remove</b> to override inherited permissions.
+            If permissions are <b>greyed out</b>, they are inherited from a parent group. Instead, add permissions on the Remove column to override any inherited permissions and remove permissions for the specific user.
         </td>
     </tr>
     `)

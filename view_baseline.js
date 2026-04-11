@@ -28,7 +28,7 @@ perm_dialog = define_new_dialog('permdialog', title = 'Edit permissions', option
             }
         },
         Advanced: {
-            text: "Advanced Permissions Settings",
+            text: "Edit Inheritance & Advanced Permissions",
             id: "perm-dialog-advanced-button",
             click: function () {
                 open_advanced_dialog(perm_dialog.attr('filepath'))
@@ -56,7 +56,7 @@ advanced_expl_div = $(`
     margin-top: 10px;
     border-radius: 4px;
 ">
-    ⚠ Having trouble accessing files? Click <b>Advanced Permissions</b> to fix inheritance or access issues.
+    ⚠ Inaccessible files to certain groups? Add them to the correct files and go to "Edit Inheritance & Advanced Permissions" to receive inherited permissions to the correct files.
 </div>
 `)
 remove_help_div = $('<div id="remove_user_help_text">To completely remove a user, select them and click "Remove User".</div>')
